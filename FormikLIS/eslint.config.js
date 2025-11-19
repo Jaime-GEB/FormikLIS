@@ -18,6 +18,8 @@ export default defineConfig([
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+    },rules: {
+         '@typescript-eslint/no-non-null-assertion': 'off',
     },
   },
 ])
