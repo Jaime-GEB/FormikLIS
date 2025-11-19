@@ -1,8 +1,22 @@
-import { useFormik } from 'formik';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { useFormik } from "formik";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import * as Yup from "yup";
+import type { FormikFormTypes } from "../constants/formTypes";
+const MuiForm = () => {
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .max(15, "Debe tener 15 letras o menos")
+      .min(2, "Debe tener al menos 2 caracteres")
+      .required("Required"),
+    lastName: Yup.string()
+      .max(20, "Debe tener 20 letras o menos")
+      .min(2, "Debe tener al menos 2 caracteres")
+      .required("Required"),
+    telfNumber: Yup.number().required(),
+    email: Yup.string().email("Correo invalido").required("Required"),
+  });
 
-const MuiForm = (validationSchema:FormikFormTypes) => {
   const formik = useFormik<FormikFormTypes>({
     initialValues: {
       name: null,
@@ -11,7 +25,7 @@ const MuiForm = (validationSchema:FormikFormTypes) => {
       email: null,
     },
     validationSchema: validationSchema,
-    onSubmit: (values: valueTypes) => {
+    onSubmit: (values: FormikFormTypes) => {
       alert(JSON.stringify(values, null, 2));
     },
   });
@@ -68,6 +82,6 @@ const MuiForm = (validationSchema:FormikFormTypes) => {
         </Button>
       </form>
     </div>
-  )
-}
-export default MuiForm
+  );
+};
+export default MuiForm;
