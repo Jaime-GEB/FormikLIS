@@ -29,6 +29,9 @@ Imitando la estructura del salia:
   - Estilar usando TailWindCSS
   - Tarducir la pagina usando react-i18n
 
+## Dudas
+- No entiendo las layouts
+
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
