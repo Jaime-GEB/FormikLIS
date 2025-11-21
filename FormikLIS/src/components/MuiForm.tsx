@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import * as Yup from "yup";
 import type { FormikFormTypes } from "../constants/formTypes";
+
 const MuiForm = () => {
   const validationSchema = Yup.object({
     name: Yup.string()
