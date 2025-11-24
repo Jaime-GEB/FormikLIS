@@ -1,9 +1,11 @@
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import Paper from '@mui/material/Paper';
-import {type WorkersModel } from '../../../../models/WorkersModel';
-import { WorkersServices } from '../../../../services/WorkersServices/WorkersServices';
+import CircularProgress from '@mui/material/CircularProgress';
+import {useAndroidDevices} from '../services/useAndroidDevices'
 
-export const WorkersTable = () => {
+export const DevicesTable = () => {
+    const { data, isPending, error } = useAndroidDevices();
+
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 130 },
         { field: 'name', headerName: 'name', width: 70 },
@@ -13,21 +15,20 @@ export const WorkersTable = () => {
         { field: 'updateConfig', headerName: 'updateConfig', width: 100 },
         { field: 'createdAt', headerName: 'createdAt', width: 130 },
         { field: 'updatedAt', headerName: 'updatedAt', width: 130 },
-    ];
-
-    const rows: WorkersModel[] = WorkersServices('workers','GET') as WorkersModel[];
-    const paginationModel = { page: 0, pageSize: 5 };
-    console.log(WorkersServices('workers','GET')[0]);
+    ]
+    
+    if (isPending) return <CircularProgress />;
+    if (error) return <div>Error: {(error as Error).message}</div>;
     return (
         <Paper sx={{ height: 400, width: '100%' }}>
             <DataGrid
-                getRowId={(rows) => rows.workers}
-                rows={rows}
+                getRowId={(row) => row.id}
+                rows={data ?? []}
                 columns={columns}
-                initialState={{ pagination: { paginationModel } }}
+                initialState={{ pagination: { paginationModel: { pageSize: 5, page: 0 } } }}
                 pageSizeOptions={[5, 10]}
                 sx={{ border: 0 }}
             />
-        </Paper>
+        </Paper>  
     );
 }
