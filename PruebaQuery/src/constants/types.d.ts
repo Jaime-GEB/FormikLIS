@@ -8,3 +8,11 @@ export interface AndroidDevice {
     idPlanta: string;
     updateConfig: boolean;
 }
+
+export interface AgendasResponse {
+    agendas:agendas[]; 
+}
+export interface agendas {
+    slug: string;
+    id: number;
+}
