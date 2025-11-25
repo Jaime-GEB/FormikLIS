@@ -1,0 +1,6 @@
+{
+  "description": {
+    "part1": "Para utilizar el tipo apropiado para t funcion,deberias usar la argumentacion de tipos.",
+    "part2": "Mira @types/i18next para ver un ejemplo."
+  }
+}
