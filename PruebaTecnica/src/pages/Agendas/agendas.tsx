@@ -1,7 +1,7 @@
 import AgendasTable from '../../modules/Agendas/components/AgendasTable/AgendasTable';
 
-const BaseFiberPage: React.FC = () => {
+const AgendasMain: React.FC = () => {
   return <AgendasTable/>;
 };
 
-export default BaseFiberPage;
+export default AgendasMain;

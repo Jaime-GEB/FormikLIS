@@ -8,7 +8,7 @@ function App() {
     <>
       <Suspense
         fallback={
-          <div className="h-full w-full flex justify-center items-center">
+          <div className="h-full w-full flex justify-center items-center background-white">
             <CircularProgress/>
           </div>
         }

@@ -10,17 +10,21 @@ function AppRouter() {
         <BrowserRouter>
             <Routes>
                 <Route
-                    index
-                    // element={<AgendasMain/>}
-                />
-                <Route
-                    path=":id"
-                    // element={<AgendasId/>}
-                />
-                <Route
-                    path="new"
-                    // element={<AgendasNew/>}
-                />
+                    path="/agendas"
+                >
+                    <Route
+                        index
+                        element={<AgendasMain/>}
+                    />
+                    <Route
+                        path=":id"
+                        element={<AgendasId/>}
+                    />
+                    <Route
+                        path="new"
+                        element={<AgendasNew/>}
+                    />
+                </Route>
             </Routes>
         </BrowserRouter>
     )
