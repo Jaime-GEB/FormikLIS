@@ -6,9 +6,8 @@ const DevicesTable = () => {
     const { data, isPending, error } = useAndroidDevices();
 
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 50 },
+        { field: 'id', headerName: 'ID', width: 130 },
         { field: 'slug', headerName: 'slug', width: 170 },
-        { field: 'name', headerName: 'name', width: 170 },
         { field: 'locatexApiUrl', headerName: 'locatexApiUrl', width: 160 },
         { field: 'idSociedad', headerName: 'idSociedad', width: 70 },
         { field: 'idPlanta', headerName: 'idPlanta', width: 70 },
