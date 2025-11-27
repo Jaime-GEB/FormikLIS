@@ -12,7 +12,7 @@ interface FormValues {
   contacts: Contact[];
 }
 
-const validationSchema = Yup.object({
+const createValidationSchema = Yup.object({
   slug: Yup.string().required("Slug es obligatorio"),
   contacts: Yup.array().of(
     Yup.object({
@@ -21,6 +21,18 @@ const validationSchema = Yup.object({
       email: Yup.string().email("Email inválido").required("Email requerido"),
       address: Yup.string().required("Dirección requerida"),
       id: Yup.number().required("ID requerido"),
+    })
+  ),
+});
+const updateValidationSchema = Yup.object({
+  slug: Yup.string().required("Slug es obligatorio"),
+  contacts: Yup.array().of(
+    Yup.object({
+      name: Yup.string(),
+      phone: Yup.string().matches(/^\+?[1-9]\d{1,14}$/, "Número de teléfono inválido"),
+      email: Yup.string().email("Email inválido"),
+      address: Yup.string(),
+      id: Yup.number(),
     })
   ),
 });
@@ -51,19 +63,18 @@ const initialValues: FormValues = {
           },
         ],
 };
-
+    const text = id ? 'Actualizar' : 'Crear';
 
     if (isPending) return <CircularProgress />;
     if (error) return <div>Error: {(error as Error).message}</div>;
-    const text = id ? 'Actualizar' : 'Crear';
-    console.log(id);
-
+    
     return (
         <>
             <h1>{text} Contactos</h1>
             <Formik
               initialValues={initialValues}
-              validationSchema={validationSchema}
+              validationSchema={id?updateValidationSchema:createValidationSchema}
+              enableReinitialize
               onSubmit={(values) => console.log(values)}
             >
               {({ values, handleChange, handleBlur, errors, touched }) => (
