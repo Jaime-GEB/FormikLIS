@@ -1,4 +1,4 @@
-import { DataGrid, type GridColDef } from '@mui/x-data-grid';
+import { DataGrid, type GridColDef, type GridCellParams  } from '@mui/x-data-grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Toolbar, Button} from '@mui/material';
 import {useAgendaService} from '../../../../services/Agendas/useAgendaService';
@@ -10,7 +10,7 @@ const AgendasTable: React.FC = () => {
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID'},
-        { field: 'slug', headerName: 'slug'},
+        { field: 'slug', headerName: 'slug'}
     ]
 
     const buttonHandleClick = () => {
@@ -21,6 +21,11 @@ const AgendasTable: React.FC = () => {
     if (isPending) return <CircularProgress />;
     if (error) return <div>Error: {(error as Error).message}</div>;
     
+    
+    const handleCellDoubleClick = (params: GridCellParams) => {
+        const rowId = params.row.slug; // ID de la fila
+        navigate(`/agendas/${rowId}`, { state: { row: params.row } });
+    }
     return (
         <>
             <Toolbar sx={{ display: "flex", justifyContent: "end" }}>
@@ -38,6 +43,7 @@ const AgendasTable: React.FC = () => {
                 columns={columns}
                 initialState={{ pagination: { paginationModel: { pageSize: 5, page: 0 } } }}
                 pageSizeOptions={[5, 10]}
+                onCellDoubleClick={handleCellDoubleClick}
             />
         </>
     );
