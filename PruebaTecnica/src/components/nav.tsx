@@ -11,6 +11,17 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useTranslation } from 'react-i18next';
 import  { useNavigate } from 'react-router-dom';
 import { useLanguageStore } from '../hooks/useChangeLang';
+import { styled } from '@mui/material/styles';
+
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+  alignItems: 'center',
+  paddingTop: theme.spacing(1),
+  paddingBottom: theme.spacing(2),
+  // Override media queries injected by theme.mixins.toolbar
+  '@media all': {
+    minHeight: 50,
+  },
+}));
 
 export default function NavBar() {
   const { language, setLanguage } = useLanguageStore()
@@ -28,9 +39,9 @@ export default function NavBar() {
     setLanguage(language == 'es' ? 'en' : 'es')
   }
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1}}>
       <AppBar position="static">
-        <Toolbar>
+        <StyledToolbar>
           <IconButton
             size="large"
             edge="start"
@@ -48,7 +59,7 @@ export default function NavBar() {
             {t('navbar.lang')}
           </Typography>
           <Button color="inherit" onClick={changeLang} sx={{ mr:5 }}>{language}</Button>
-        </Toolbar>
+        </StyledToolbar>
       </AppBar>
     </Box>
   );

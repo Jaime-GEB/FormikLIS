@@ -66,7 +66,7 @@ const AgendasTable: React.FC = () => {
     }
     return (
         <Box sx={{ display: "flex", justifyContent: "center", flexDirection:"column" }}>
-            <Toolbar sx={{ display: "flex", justifyContent: "end", width:"90%" }}>
+            <Toolbar sx={{ display: "flex", justifyContent: "end", width:"85%" }}>
                 <Button
                     size='medium'
                     onClick={buttonHandleClick}
@@ -84,7 +84,7 @@ const AgendasTable: React.FC = () => {
                 onCellDoubleClick={handleCellDoubleClick}
                 sx={{
                     bgcolor: 'white',
-                    width:"90%",
+                    width:"75%",
                     alignSelf:"center",
                     borderRadius: 2,
                     boxShadow: 3,
