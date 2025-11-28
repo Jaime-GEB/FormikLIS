@@ -7,9 +7,10 @@ interface AgendasResponse {
     agendas: AgendasContacts[];
 }
 
-const navigate = useNavigate();
+
 
 export const useGetAgendasForm = (slug: string) => {
+
     return useQuery<AgendasResponse[]>({
         queryKey: ['agendas'],
         queryFn: async () => {
@@ -41,23 +42,29 @@ export const useGetAgendasForm = (slug: string) => {
     })
 }
 
-export const useCreateContact = () => {
+export const useCreateContact = (slug: string) => {
+    const navigate = useNavigate();
     return useMutation({
         mutationFn: async (data: AgendasContacts) => {
-            const response = await fetch('/agendas/' + data.slug, {
+            const response = await fetch('https://playground.4geeks.com/contact/agendas/' + slug + '/contacts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data.contacts[0])
             });
             if (!response.ok) {
                 throw new Error('Error en la petición');
             }
             return response.json();
+        },
+        onSuccess: () => {
+            navigate('/agendas');
         }
     });
 };
 
 export const useCreateSlug = () => {
+    const navigate = useNavigate();
+
     return useMutation({
         mutationFn: async (data: { slug: string }) => {
             const response = await fetch('https://playground.4geeks.com/contact/agendas/' + data.slug, {
