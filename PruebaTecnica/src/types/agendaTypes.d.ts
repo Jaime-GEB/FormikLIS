@@ -1,8 +1,7 @@
-export interface Agendas{
-    slug: string,
-    id: number,
+export interface Agendas {
+  slug: string,
+  id: number,
 }
-
 interface Contact {
   name: string;
   phone: string;
