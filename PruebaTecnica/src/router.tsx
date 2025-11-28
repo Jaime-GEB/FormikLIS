@@ -3,10 +3,10 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 
 const AgendasMain = lazy(() => import('./pages/Agendas/agendas'));
 const AgendasId = lazy(() => import('./pages/Agendas/id/agendasById'));
-const AgendasNew = lazy(() => import('./pages/Agendas/new/agendasNew'));
+const SlugNew = lazy(() => import('./pages/Agendas/new/slugNew'));
 
 function AppRouter() {
-    return(
+    return (
         <BrowserRouter>
             <Routes>
                 <Route
@@ -14,15 +14,15 @@ function AppRouter() {
                 >
                     <Route
                         index
-                        element={<AgendasMain/>}
+                        element={<AgendasMain />}
                     />
                     <Route
                         path=":id"
-                        element={<AgendasId/>}
+                        element={<AgendasId />}
                     />
                     <Route
                         path="new"
-                        element={<AgendasNew/>}
+                        element={<SlugNew />}
                     />
                 </Route>
             </Routes>

@@ -1,12 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
 import { useMutation } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
 import { type AgendasContacts } from '../../../../../types/agendaTypes';
 
 interface AgendasResponse {
-    agendas:AgendasContacts[]; 
+    agendas: AgendasContacts[];
 }
 
-export const useGetAgendasForm = (slug:string) => {
+const navigate = useNavigate();
+
+export const useGetAgendasForm = (slug: string) => {
 
     return useQuery<AgendasResponse[]>({
         queryKey: ['agendas'],
@@ -39,21 +42,39 @@ export const useGetAgendasForm = (slug:string) => {
     })
 }
 
-export const useCreateContact = (slug:string) => {
-    
-  return useMutation({
-    mutationFn: async (data: AgendasContacts) => {
-      const response = await fetch('/agendas/'+ slug, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      if (!response.ok) {
-        throw new Error('Error en la petición');
-      }
-      return response.json();
-    }
-  });
+export const useCreateContact = () => {
+
+    return useMutation({
+        mutationFn: async (data: AgendasContacts) => {
+            const response = await fetch('/agendas/' + data.slug, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (!response.ok) {
+                throw new Error('Error en la petición');
+            }
+            return response.json();
+        }
+    });
+};
+
+export const useCreateSlug = () => {
+
+    return useMutation({
+        mutationFn: async (data: { slug: string }) => {
+            const response = await fetch('https://playground.4geeks.com/contact/agendas/' + data.slug, {
+                method: 'POST',
+            });
+            if (!response.ok) {
+                throw new Error('Error en la petición');
+            }
+            return response.json();
+        },
+        onSuccess: () => {
+            navigate('/agendas');
+        }
+    });
 };
 
 

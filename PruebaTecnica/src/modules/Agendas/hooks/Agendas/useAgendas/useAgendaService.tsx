@@ -4,7 +4,7 @@ import { useMutation } from '@tanstack/react-query'
 
 
 interface AgendasResponse {
-    agendas:Agendas[]; 
+    agendas: Agendas[];
 }
 
 export const useAgendaService = () => {
@@ -43,16 +43,21 @@ export const useAgendaService = () => {
 }
 
 export const useDeleteContact = () => {
-    
-  return useMutation({
-    mutationFn: async (slug:string) => {
-      const response = await fetch('/agendas/'+ slug, {
-        method: 'DELETE'
-      });
-      if (!response.ok) {
-        throw new Error('Error en la petición');
-      }
-      return response.json();
-    }
-  });
+
+    return useMutation({
+        mutationFn: async (slug: string) => {
+            const response = await fetch('https://playground.4geeks.com/contact/agendas/' + slug, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error('Error en la petición');
+            }
+            return (
+                response.json()
+            );
+        },
+        onSuccess: () => {
+            location.reload();
+        }
+    });
 };
