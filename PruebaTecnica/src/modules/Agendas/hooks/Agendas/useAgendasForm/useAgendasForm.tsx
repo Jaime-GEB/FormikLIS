@@ -10,7 +10,6 @@ interface AgendasResponse {
 const navigate = useNavigate();
 
 export const useGetAgendasForm = (slug: string) => {
-
     return useQuery<AgendasResponse[]>({
         queryKey: ['agendas'],
         queryFn: async () => {
@@ -43,7 +42,6 @@ export const useGetAgendasForm = (slug: string) => {
 }
 
 export const useCreateContact = () => {
-
     return useMutation({
         mutationFn: async (data: AgendasContacts) => {
             const response = await fetch('/agendas/' + data.slug, {
@@ -60,7 +58,6 @@ export const useCreateContact = () => {
 };
 
 export const useCreateSlug = () => {
-
     return useMutation({
         mutationFn: async (data: { slug: string }) => {
             const response = await fetch('https://playground.4geeks.com/contact/agendas/' + data.slug, {
