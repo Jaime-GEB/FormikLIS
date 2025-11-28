@@ -1,11 +1,11 @@
 import AgendasTable from '../../modules/Agendas/components/AgendasTable/AgendasTable';
+import Layout from '../../layouts/layout';
 
 const AgendasMain: React.FC = () => {
   return (
-    <>
-      <h1 className=''>Tabla de Personas</h1>
+    <Layout>
       <AgendasTable/>
-    </>
+    </Layout>
   );
 };
 

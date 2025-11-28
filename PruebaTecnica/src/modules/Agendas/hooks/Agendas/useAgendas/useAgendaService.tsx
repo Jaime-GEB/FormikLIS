@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { type Agendas } from '../../types/agendaTypes';
+import { type Agendas, } from '../../../../../types/agendaTypes';
+import { useMutation } from '@tanstack/react-query'
+
 
 interface AgendasResponse {
     agendas:Agendas[]; 
@@ -19,7 +21,6 @@ export const useAgendaService = () => {
 
             const text = await response.text();
             if (!text) {
-                // empty response -> return empty array to satisfy the expected type
                 return [] as AgendasResponse[];
             }
 
@@ -32,7 +33,6 @@ export const useAgendaService = () => {
                 }
             }
 
-            // Fallback: try to parse anyway, otherwise provide a helpful error
             try {
                 return JSON.parse(text) as AgendasResponse[];
             } catch {
@@ -41,3 +41,18 @@ export const useAgendaService = () => {
         }
     })
 }
+
+export const useDeleteContact = () => {
+    
+  return useMutation({
+    mutationFn: async (slug:string) => {
+      const response = await fetch('/agendas/'+ slug, {
+        method: 'DELETE'
+      });
+      if (!response.ok) {
+        throw new Error('Error en la petición');
+      }
+      return response.json();
+    }
+  });
+};

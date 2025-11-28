@@ -3,27 +3,11 @@ import React from "react";
 import { Formik, Form, FieldArray, getIn } from "formik";
 import * as Yup from "yup";
 import { TextField, Button, Box, CircularProgress} from "@mui/material";
-import { type Contact } from "../../../../types/agendaTypes";
+import { type AgendasContacts, type Contact } from "../../../../types/agendaTypes";
 import { useParams } from "react-router-dom";
-import { useAgendasForm } from "../../hooks/Agendas/useAgendasForm/useAgendasForm";
+import { useGetAgendasForm, useCreateContact } from '../../hooks/Agendas/useAgendasForm/useAgendasForm';
+import { useTranslation } from 'react-i18next';
 
-interface FormValues {
-  slug: string;
-  contacts: Contact[];
-}
-
-const createValidationSchema = Yup.object({
-  slug: Yup.string().required("Slug es obligatorio"),
-  contacts: Yup.array().of(
-    Yup.object({
-      name: Yup.string().required("Nombre requerido"),
-      phone: Yup.string().required("Teléfono requerido"),
-      email: Yup.string().email("Email inválido").required("Email requerido"),
-      address: Yup.string().required("Dirección requerida"),
-      id: Yup.number().required("ID requerido"),
-    })
-  ),
-});
 const updateValidationSchema = Yup.object({
   slug: Yup.string().required("Slug es obligatorio"),
   contacts: Yup.array().of(
@@ -39,43 +23,57 @@ const updateValidationSchema = Yup.object({
 
 const MyForm: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const { data, isPending, error } = useAgendasForm(id);
+    const mutation = useCreateContact(id||'');
+    const { data, isPending, error } = useGetAgendasForm(id? id : ''); 
+    const { t } = useTranslation();
 
+    const createValidationSchema = Yup.object({
+      slug: Yup.string().required(t('agendas.form.validation.slugRequired')),
+      contacts: Yup.array().of(
+      Yup.object({
+        name: Yup.string().required(t('agendas.form.validation.nameRequired')),
+        phone: Yup.string().required(t('agendas.form.validation.phoneRequired')),
+        email: Yup.string().email(t('agendas.form.validation.emailInvalid')).required(t('agendas.form.validation.emailRequired')),
+        address: Yup.string().required(t('agendas.form.validation.addressRequired')),
+        id: Yup.number().required(t('agendas.form.validation.idRequired')),
+      })
+    ),
+  });
     
-const initialValues: FormValues = {
-  slug: data?.slug ?? "",
-  contacts:
-    data?.contacts?.length
-      ? data.contacts.map((c:Contact) => ({
-          name: c.name ?? "",
-          phone: c.phone ?? "",
-          email: c.email ?? "",
-          address: c.address ?? "",
-          id: typeof c.id === "number" ? c.id : Number(c.id ?? 0),
-        }))
-      : [
-          {
-            name: "",
-            phone: "",
-            email: "",
-            address: "",
-            id: "" as unknown as number, 
-          },
-        ],
-};
-    const text = id ? 'Actualizar' : 'Crear';
+  const initialValues: AgendasContacts = {
+    slug: data?.slug ?? "",
+    contacts:
+      data?.contacts?.length
+        ? data.contacts.map((c:Contact) => ({
+            name: c.name ?? "",
+            phone: c.phone ?? "",
+            email: c.email ?? "",
+            address: c.address ?? "",
+            id: typeof c.id === "number" ? c.id : Number(c.id ?? 0),
+          }))
+        : [
+            {
+              name: "",
+              phone: "",
+              email: "",
+              address: "",
+              id: "" as unknown as number, 
+            },
+          ],
+  };
+    const text = id ? t('agendas.form.titleUpdate') : t('agendas.form.titleCreate');
 
     if (isPending) return <CircularProgress />;
     if (error) return <div>Error: {(error as Error).message}</div>;
     
     return (
         <>
-            <h1>{text} Contactos</h1>
+            <h1>{text} {t('agendas.form.contacts')}</h1>
             <Formik
               initialValues={initialValues}
               validationSchema={id?updateValidationSchema:createValidationSchema}
               enableReinitialize
-              onSubmit={(values) => console.log(values)}
+              onSubmit={(values) => mutation.mutate(values)}
             >
               {({ values, handleChange, handleBlur, errors, touched }) => (
                 <Form>
@@ -92,7 +90,7 @@ const initialValues: FormValues = {
                         helperText={touched.slug && errors.slug}
                         />
                     </Box>
-                    <h3>Contacto</h3>
+                    <h3>{t('agendas.form.contacts')}</h3>
                     <FieldArray name="contacts">
                         {({ push, remove }) => {
                             const { contacts } = values;
@@ -106,7 +104,7 @@ const initialValues: FormValues = {
                                                         fullWidth
                                                         id={`contacts.${index}.name`}
                                                         name={`contacts.${index}.name`}
-                                                        label="Nombre Contacto"
+                                                        label={t('agendas.form.inputs.name')}
                                                         value={values.contacts[index].name}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
@@ -118,7 +116,7 @@ const initialValues: FormValues = {
                                                         fullWidth
                                                         id={`contacts.${index}.phone`}
                                                         name={`contacts.${index}.phone`}
-                                                        label="Teléfono"
+                                                        label={t('agendas.form.inputs.telf')}
                                                         value={values.contacts[index].phone}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
@@ -142,7 +140,7 @@ const initialValues: FormValues = {
                                                         fullWidth
                                                         id={`contacts.${index}.address`}
                                                         name={`contacts.${index}.address`}
-                                                        label="Dirección"
+                                                        label={t('agendas.form.inputs.address')}
                                                         value={values.contacts[index].address}
                                                         onChange={handleChange}
                                                         onBlur={handleBlur}
@@ -171,7 +169,7 @@ const initialValues: FormValues = {
                                                     onClick={() => remove(index)}
                                                     style={{ marginTop: '10px' }}
                                                 >
-                                                    Eliminar contacto
+                                                    {t('agendas.form.deleteContact')}
                                                 </Button>
                                             </Box>                 
                                         
@@ -182,7 +180,7 @@ const initialValues: FormValues = {
                                                   push({ name: '', phone: '', email: '', address: '', id: 0 })
                                                 }
                                             >
-                                              Añadir contacto
+                                              {t('agendas.form.addContact')}
                                             </Button>
                                         </Box>
                                     ))}
@@ -192,7 +190,7 @@ const initialValues: FormValues = {
                     </FieldArray>
                   <Box mt={3}>
                     <Button type="submit"fullWidth variant="contained" color="success">
-                      Enviar
+                      {t('agendas.form.submit')}
                     </Button>
                   </Box>
                 </Form>

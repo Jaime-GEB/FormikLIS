@@ -1,0 +1,37 @@
+{
+  "navbar": {
+    "title": "Agenda Manager",
+    "lang":"Language:"
+  },
+  "agendas": {
+    "table": {
+      "id": "ID",
+      "slug": "Slug",
+      "actions": "Actions",
+      "delete": "Delete"
+    },
+    "form": {
+      "titleCreate": "Create",
+      "titleUpdate": "Update",
+      "contacts": "Contacts",
+      "deleteContact": "Delete contact",
+      "addContact": "Add contact",
+      "submit": "Send",
+      "validation": {
+        "slugRequired": "Slug is required",
+        "nameRequired": "Name is required",
+        "phoneRequired": "Phone is required",
+        "emailInvalid": "Email is invalid",
+        "emailRequired": "Email is required",
+        "addressRequired": "Direction is required",
+        "idRequired": "ID is required",
+        "phoneInvalid": "Phone is invalid"
+      }, 
+      "inputs":{
+        "name":"Contact Name",
+        "telf":"Contact Phone",
+        "address":"Address"
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "navbar": {
+    "title": "Gestor de Agendas",
+    "lang":"Idioma:"
+  },
+  "agendas": {
+    "table": {
+      "id": "ID",
+      "slug": "Slug",
+      "actions": "Acciones",
+      "delete": "Eliminar"
+    },
+    "form": {
+      "titleCreate": "Crear",
+      "titleUpdate": "Actualizar",
+      "contacts": "Contactos",
+      "deleteContact": "Eliminar contacto",
+      "addContact": "Añadir contacto",
+      "submit": "Enviar",
+      "validation": {
+        "slugRequired": "Slug es obligatorio",
+        "nameRequired": "Nombre requerido",
+        "phoneRequired": "Teléfono requerido",
+        "emailInvalid": "Email inválido",
+        "emailRequired": "Email requerido",
+        "addressRequired": "Dirección requerida",
+        "idRequired": "ID requerido",
+        "phoneInvalid": "Número de teléfono inválido"
+      }, 
+      "inputs":{
+        "name":"Nombre de Contacto",
+        "telf":"Telefono de Contacto",
+        "address":"Dirección"
+      }
+    }
+  }
+}

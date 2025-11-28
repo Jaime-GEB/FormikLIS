@@ -3,7 +3,6 @@ export interface Agendas{
     id: number,
 }
 
-
 interface Contact {
   name: string;
   phone: string;
@@ -13,6 +12,6 @@ interface Contact {
 }
 
 export interface AgendasContacts {
-  slug: string;
+  slug?: string;
   contacts: Contact[];
 }
