@@ -5,15 +5,16 @@ import * as Yup from "yup";
 import { TextField, Button, Box, CircularProgress } from "@mui/material";
 import { type AgendasContacts, type Contact } from "../../../../types/agendaTypes";
 import { useParams } from "react-router-dom";
-import { useGetAgendasForm, useCreateContact } from '../../hooks/Agendas/useAgendasForm/useAgendasForm';
+import { useGetAgendasForm, useCreateContact, useDeleteContactItem } from '../../hooks/Agendas/useAgendasForm/useAgendasForm';
 import { useTranslation } from 'react-i18next';
 
 
 const MyForm: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const mutation = useCreateContact(id || '');
-  const { data, isPending, error } = useGetAgendasForm(id ? id : '');
+  const { data, isPending, error } = useGetAgendasForm(id ? id : '') as { slug: string; contacts: Contact[] };
   const { t } = useTranslation();
+  const mutationDelete = useDeleteContactItem();
 
   const validationSchema = Yup.object({
     contacts: Yup.array().of(
@@ -67,6 +68,11 @@ const MyForm: React.FC = () => {
               <TextField
                 defaultValue={data?.slug}
                 fullWidth
+                slotProps={{
+                  inputLabel: {
+                    shrink: true,
+                  },
+                }}
                 id="slug"
                 name="slug"
                 label="Slug"
@@ -153,7 +159,12 @@ const MyForm: React.FC = () => {
                           <Button
                             variant="outlined"
                             color="error"
-                            onClick={() => remove(index)}
+                            onClick={
+                              () => {
+                                mutationDelete.mutate({ slug: data?.slug, id: contact.id })
+                                remove(index)
+                              }
+                            }
                             style={{ marginTop: '10px' }}
                           >
                             {t('agendas.form.deleteContact')}

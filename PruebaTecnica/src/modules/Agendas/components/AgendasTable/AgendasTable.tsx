@@ -38,13 +38,16 @@ const AgendasTable: React.FC = () => {
           align: 'center',
           renderCell: (params) => {
                 return (
-                  <Button
+                <Button
                     variant="contained"
                     color="error"
-                    onClick={() => mutation.mutate(params.row.slug)}
-                  >
-                   {t('agendas.table.delete')}
-                  </Button>
+                    onClick={() => {
+                        mutation.mutate(params.row.slug);
+                        setTimeout(()=>location.reload(),200);
+                    }}
+                >
+                    {t('agendas.table.delete')}
+                </Button>
                 );
             },
         }
@@ -52,7 +55,6 @@ const AgendasTable: React.FC = () => {
     ]
 
     const buttonHandleClick = () => {
-        console.log('Redirecting to /agendas/new');
         return navigate('/agendas/new');
     }
     console.log(data);

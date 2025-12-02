@@ -1,5 +1,6 @@
 import { lazy } from 'react';
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
+
 
 const AgendasMain = lazy(() => import('./pages/Agendas/agendas'));
 const AgendasId = lazy(() => import('./pages/Agendas/id/agendasById'));
@@ -9,6 +10,10 @@ function AppRouter() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route
+                    path="/"
+                    element={<Navigate to="/agendas" />}
+                />
                 <Route
                     path="/agendas"
                 >

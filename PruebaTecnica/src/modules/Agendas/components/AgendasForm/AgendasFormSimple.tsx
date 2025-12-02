@@ -33,7 +33,7 @@ const MyForm: React.FC = () => {
                 initialValues={initialValues}
                 validationSchema={id ? updateValidationSchema : createValidationSchema}
                 enableReinitialize
-                onSubmit={(values) => mutation.mutate(values)}
+                onSubmit={(values) => {mutation.mutate(values)}}
             >
                 {({ values, handleChange, handleBlur, errors, touched }) => (
                     <Form>

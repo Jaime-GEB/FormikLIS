@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { type AgendasContacts } from '../../../../../types/agendaTypes';
 
+
 interface AgendasResponse {
     agendas: AgendasContacts[];
 }
@@ -81,4 +82,19 @@ export const useCreateSlug = () => {
     });
 };
 
-
+export const useDeleteContactItem = () => {
+    return useMutation({
+        mutationFn: async (variables: { slug: string; id: number }) => {
+            const response = await fetch('https://playground.4geeks.com/contact/agendas/' + variables.slug + '/contacts/' + variables.id, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                throw new Error('Error en la petición');
+            }
+            return response.json();
+        },
+        onSuccess: () => {
+            location.reload();
+        }
+    });
+};
