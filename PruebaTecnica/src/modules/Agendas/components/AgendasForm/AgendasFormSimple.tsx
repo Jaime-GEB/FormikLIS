@@ -31,7 +31,7 @@ const MyForm: React.FC = () => {
             <h1>{text} {t('agendas.form.contacts')}</h1>
             <Formik
                 initialValues={initialValues}
-                validationSchema={id ? updateValidationSchema : createValidationSchema}
+                validationSchema={createValidationSchema}
                 enableReinitialize
                 onSubmit={(values) => {mutation.mutate(values)}}
             >
